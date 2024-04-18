@@ -107,7 +107,6 @@ async function exibirAlunos() {
 
       const nomeAluno = document.createElement('div');
       nomeAluno.classList.add('nome-aluno');
-      nomeAluno.dataset.add('data-cod');
       nomeAluno.textContent = aluno.nome; 
 
       caixaAluno.appendChild(nomeAluno);
