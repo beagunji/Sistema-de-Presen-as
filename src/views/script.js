@@ -107,6 +107,7 @@ async function exibirAlunos() {
 
       const nomeAluno = document.createElement('div');
       nomeAluno.classList.add('nome-aluno');
+      nomeAluno.dataset.add('data-cod');
       nomeAluno.textContent = aluno.nome; 
 
       caixaAluno.appendChild(nomeAluno);
@@ -120,20 +121,7 @@ async function exibirAlunos() {
 
 /*------------------------------------------------------------------------------------------*/ 
 
-// Clicar nos nomes pega o codigo e muda de cor
-function buscarCodigoAluno() {
-  const divsAlunos = document.querySelectorAll('.nome-aluno'); // Seleciona todas as divs com a classe 'nome-aluno'
-  
-  divsAlunos.forEach(divAluno => {
-    divAluno.addEventListener('click', function() {
-      divAluno.classList.toggle('falta');
-      const codigoAluno = divAluno.dataset.codigoAluno; // Obtém o código do aluno da propriedade 'data-codigo-aluno'
-      console.log('Código do aluno:', codigoAluno);
-    });
-  });
-}
-
-/*document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const listaAluno = document.getElementById('lista-alunos');
     const enviarPresencaBtn = document.getElementById('botao-confirmar');
     const faltas = {}; // Objeto para armazenar as faltas
@@ -146,6 +134,7 @@ function buscarCodigoAluno() {
 
                 // Armazenar a falta se a div estiver com a classe falta
                 const codigoAluno = divAluno.dataset.codAluno;
+                console.log('Codigo do aluno:', codigoAluno)
                 if (divAluno.classList.contains('falta')) {
                     if (!faltas[codigoAluno]) {
                         faltas[codigoAluno] = [];
@@ -190,6 +179,6 @@ function buscarCodigoAluno() {
             }
         });
     }
-});*/
+});
 
 window.onload = exibirAlunos;
