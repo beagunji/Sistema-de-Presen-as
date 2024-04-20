@@ -105,6 +105,7 @@ async function exibirAlunos() {
       const caixaAluno = document.createElement('div');
       caixaAluno.classList.add('caixa-aluno');
 
+      // Adiciona o codigo do aluno como um atributo
       caixaAluno.dataset.codAluno = aluno.codigo;
 
       const nomeAluno = document.createElement('div');
@@ -153,31 +154,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         enviarPresencaBtn.addEventListener('click', async () => {
-            const alunosFaltas = document.querySelectorAll('.falta .caixa-aluno');
-            const faltasEnviar = [];
-
-            alunosFaltas.forEach(aluno => {
-                const codAluno = aluno.dataset.codAluno;
-                faltasEnviar.push({ codAluno });
+          const alunosFaltas = document.querySelectorAll('.falta.caixa-aluno');
+          const faltasEnviar = [];
+        
+          alunosFaltas.forEach(aluno => {
+            const codAluno = aluno.dataset.codAluno;
+            faltasEnviar.push({ codAluno: parseInt(codAluno) }); // Convert to integer
+          });
+        
+          try {
+            const response = await fetch('http://localhost:3000/api/faltas', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ faltasEnviar })
             });
-
-            try {
-                const response = await fetch('/api/faltas', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ faltasEnviar })
-                });
-
-                if (response.ok) {
-                    console.log('Faltas confirmadas com sucesso!');
-                } else {
-                    console.error('Erro ao confirmar faltas:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Erro ao confirmar faltas:', error);
+        
+            if (response.ok) {
+              console.log('Faltas confirmadas com sucesso!');
+            } else {
+              console.error('Erro ao confirmar faltas:', response.statusText);
             }
+          } catch (error) {
+            console.error('Erro ao confirmar faltas:', error);
+          }
         });
     }
 });

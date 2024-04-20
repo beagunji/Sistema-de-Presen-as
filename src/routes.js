@@ -4,5 +4,6 @@ const router = express.Router();
 const FaltaController = require('./controllers/FaltaController');
 
 router.get('/alunos', FaltaController.buscarTodos);
+router.post('/faltas', FaltaController.confirmarFalta);
 
 module.exports = router;

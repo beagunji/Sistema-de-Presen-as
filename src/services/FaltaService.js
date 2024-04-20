@@ -11,6 +11,23 @@ module.exports = {
                 aceito(results);
             });
         });
+    },
+
+    registrarFaltas: (faltasEnviar) => {
+        return new Promise((aceito, rejeitado) => {
+          const inserts = faltasEnviar.map(falta => {
+            return new Promise((resolve, reject) => {
+              db.query('INSERT INTO Faltas (Cod_Aluno, Qtde_Faltas, Datas) VALUES (?, ?, CURDATE())', [falta.codAluno, 1], (error, results) => {
+                if(error) { reject(error); return; }
+                resolve(results);
+              });
+            });
+          });
+    
+          Promise.all(inserts)
+            .then(() => aceito())
+            .catch(error => rejeitado(error));
+        });
     }
     
 };
