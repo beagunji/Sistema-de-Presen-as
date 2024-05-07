@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relatório de Faltas</title>
+    <link rel="stylesheet" type="text/css" href="relatorio/relatorio_faltas.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <title>RELATÓRIO DE FALTAS</title>
+</head>
+<body>
+    <header>
+        <button class="botaoVoltar tamanhoFonte" id="botãoConfirmar" onclick="jumpButton()">Voltar</button>
+        <h1 class="tamanhoFonte">Relatório de Faltas</h1>
+        <select id="turma" class="tamanhoFonte">
+            <option value="9" class="opcoes">Selecione turma</option>
+            <option value="1" class="opcoes">1º ano</option>
+            <option value="2" class="opcoes">2º ano</option>
+            <option value="3" class="opcoes">3º ano</option>
+            <option value="4" class="opcoes">4º ano</option>
+            <option value="5" class="opcoes">5º ano</option>
+        </select>
+
+     
+        <input type="text" placeholder="YYYY/MM/DD" onfocus="this.type='date'" onblur="this.type='text'" class="calendario">
+        
+        
+        <button class="botaoLetra tamanhoFonte" id="botaoMudarLetra" onclick="jumpButtonL(); mudarFonte()" onclick="">Mudar Fonte</button>
+
+
+        <section class="aumentarFonte tamanhoFonte">
+          <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA tamanhoFonte" id="botaoAMais">A+</button>
+          <button onclick="mudarTamanhoFonte('diminuir')" class="botaoA tamanhoFonte" id="botãoAMenos">A-</button>
+        </section>
+    </header>
+    <main>
+        <table id="relatorio">
+            <thead>
+                <tr>
+                    <th class="tamanhoFonte">Data</th>
+                    <th class="tamanhoFonte">Nome do Aluno</th>
+                    <th class="tamanhoFonte">Nome do Professor</th>
+                    <th class="tamanhoFonte">Disciplina</th>
+                    <th class="tamanhoFonte">Qtde de Faltas</th>
+                    <th class="tamanhoFonte" id="porcfaltas">% de Faltas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Adicionar dados-->
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <button id="imprimir_button" class="imprimirB tamanhoFonte" onclick="jumpButtonI()">Imprimir Relatório</button>
+    </footer>
+    <script src="relatorio/relatorio_faltas.js"></script>
+</body>
+</html>

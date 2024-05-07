@@ -1,366 +1,239 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins";
-            font-size: auto;
-        }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+  font-size: auto;
+}
 
-        body {
-            /*font-family: Arial, sans-serif;*/
-            line-height: 2;
-        }
+body {
+  line-height: 2;
+  width: 50%;
+  margin: 0 auto;
+}
 
-        .botaoVoltar {
-            display: block;
-            padding: 10px;
-            background-color: #87CEFA;
-            color: black;
-            border: none;
-            cursor: pointer;
-            margin-top: 5px;
-            width: auto;
-            font-size: 12px;
-            box-shadow: 4px 4px 0px #50abe4;
-            transition: .3s;
-            float: left;
-            margin-top: 30px;
-        }
+.botoesCima{
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-between;
+}
 
-        .botaoA {
-            display: block;
-            padding: 10px;
-            background-color: #87CEFA;
-            color: black;
-            border: none;
-            cursor: pointer;
-            margin-top: 5px;
-            width: auto;
-            font-size: 12px;
-            box-shadow: 4px 4px 0px #50abe4;
-            transition: .2s;
-            float: right;
-            margin-top: 30px;
-            justify-content: space-between;
-            user-select: none;
-        }
+.botaoVoltar {
+  display: block;
+  padding: 10px;
+  background-color: #87CEFA;
+  color: black;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  font-size: 12px;
+  box-shadow: 4px 4px 0px #50abe4;
+  transition: .3s;
+  float: left;
+  transition-timing-function: ease-in-out;
+}
 
-        #botaoAMais{
-            margin-right: 20%;
-          }
-          
-          .aumentarFonte{
-            display: flex;
-            float: right;
-        }
-        
-        h1{
-            font-size: 30px;
-            text-align: center;
-            padding-top: 90px;
-            transition: 0.4s;
-            transition-timing-function: ease-in-out;
-          }
-          h3{
-            font-size: 15px;
-            transition: 0.4s;
-            transition-timing-function: ease-in-out;
-          }
-          li{
-            transition: 0.4s;
-            transition-timing-function: ease-in-out;
-          }
-          
-          
-          .dropdown {
-            width: 50%;
-            margin: 0 auto;
-            
-          }
-          
-          .menuSelecionar {
-            width: 50%;
-            margin: 0 auto;
-          }
-          
-          .menuSelecionar .botaoSetaSelecionar{
-            display: flex;
-            height: 55px;
-            border: 1px solid #ddd;
-            padding: 20px;
-            font-size: 18px;
-            font-weight: 400;
-            border-radius: 8px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-          }
-          
-          
-          .botaoSetaSelecionar i{
-            font-size: 25px;
-            transition: 0.3s;
-          }
-          
-          .menuSelecionar.ativar .botaoSetaSelecionar i{
-            transform: rotate(-180deg);
-          }
-          
-          .menuSelecionar .opcoes{
-            position: relative;
-            padding: 20px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-            display: none;
-          }
-          
-          .menuSelecionar.ativar .opcoes{
-            display: block;
-          }
-          
-          .opcoes{
-            display: none;
-            height: 55px;
-            width: auto;
-            padding: 0 16px;
-            border-radius: 8px;
-            align-items: center;
-            cursor: pointer;
-            font-size: 25px;
-            margin-right: 12px;
-            list-style: none;
-            transform: translateX(-50%);
-            transition: 0.2s;
-            z-index: 1;
-          }
-          
-          .opcoes:hover{
-            background-color: #87CEFA;
-          }
+.botaoLetra {
+  display: block;
+  padding: 10px;
+  background-color: #87CEFA;
+  color: black;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  font-size: 14px;
+  box-shadow: 4px 4px 0px #50abe4;
+  transition: .3s;
+  transition-timing-function: ease-in-out;
+  float: right;
+}
 
-        .bloco-lista {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+.botaoA {
+  display: block;
+  padding: 10px;
+  background-color: #87CEFA;
+  color: black;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  font-size: 12px;
+  box-shadow: 4px 4px 0px #50abe4;
+  transition: .2s;
+  float: right;
+  justify-content: space-between;
+  user-select: none;
+}
 
-        .caixa-aluno {
-            flex: 1 1 50%;
-            margin: 1rem;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            background-color: #f3f3f3;
-            text-align: center;
-            cursor: pointer;
-        }
+#botaoAMais {
+  margin-right: 20%;
+}
 
-        .caixa-aluno.falta {
-            background-color: #ffcccc;
-        }
+.aumentarFonte {
+  display: flex;
+  float: right;
+  margin-top: 2em;
+}
 
-        div:active {
-            transform: translateY(5px);
-        }
+h1 {
+  font-size: 30px;
+  text-align: center;
+  padding-top: 90px;
+  transition: 0.4s;
+  transition-timing-function: ease-in-out;
+}
 
-        .botao {
-            display: block;
-            padding: 25px;
-            background-color: #87CEFA;
-            color: black;
-            border: none;
-            cursor: pointer;
-            margin: 1rem auto;
-            width: auto;
-            font-size: auto;
-            box-shadow: 4px 4px 0px #50abe4;
-            transition: .3s;
-            justify-content: space-between;
-            flex-direction: row;
-            align-items: center;
-        }
+h3 {
+  font-size: 15px;
+  transition: 0.4s;
+  transition-timing-function: ease-in-out;
+}
 
-        button:active {
-            transform: translateY(15px);
-        }
+span{
+  transition: 0.4s;
+  transition-timing-function: ease-in-out;
+}
 
-        #botao-salvar {
-            float: left;
-        }
+li {
+  font-size: 15px;
+  margin-right: 12px;
+}
 
-        #botao-confirmar {
-            float: right;
-        }
+.menu{
+  min-width: 15em;
+  position: relative;
+  margin: 2em;
+}
 
-        @media (max-width: 768px) {
-            .caixa-aluno {
-                flex: 1 1 100%;
-            }
-        }
+.menu *{
+  box-sizing: border-box;
+}
 
-        .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            transform: translateY(50%);
-          }
-          
-          .container {
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0 auto;
-            display: block;
-            min-width: 231.5px;
-            width: 100%;
-            max-width: 483px;
-          }
-          
-          
-          .setting-description {
-            background-color: #fff; 
-            border-radius: 15px 15px 0px 0px;
-          
-            min-width: 231.5px;
-            width: 100%;
-            max-width: 483px;
-          }
-          
-          h10 {
-            font-size: 12px;
-            margin-left: 5px !important;
-            letter-spacing: 0.8px;
-            font-family: Arial !important;
-          }
-          
-          .setting-description-text {
-            padding-top: 18px !important;
-            color: #81828b;
-            font-family: Gilroy-Regular !important;
-          }
-          
-          
-          .wrapper-dropdown {
-            position: relative;
-            display: inline-block;
-            min-width: 231.5px;
-            width: 100%; 
-            max-width: 210%;
-            padding: 0px 0px 0px 0px;
-            min-height: 44px;
-            border-radius: 0px 0px 15px 15px;
-            background: #fff;
-            text-align: left;
-            color: black;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            margin-bottom: 20px;
-            font-family: Arial;
-          }
-          
-          
-          .scrollable-menu {
-            height: auto;
-            max-height: 200px;
-            overflow-x: hidden;
-          }
-          
-          .arrow {
-            margin-left: 10px;
-            margin-right: 10px;
-            float: right;
-            rotate: 180deg;
-          }
-          
-          .selected-display {
-            margin-left: 20px;
-          }
-          
-          svg {
-            transition: all 0.3s;
-          }
-          
-          .wrapper-dropdown::before {
-            position: absolute;
-            top: 50%;
-            right: 16px;
-          
-            margin-top: -2px;
-          
-            border-width: 6px 6px 0 6px;
-            border-style: solid;
-            border-color:  #81828b;
-            width: 210%;
-          }
-          
-          .rotated {
-            transform: rotate(-180deg);
-          }
-          
-          .wrapper-dropdown .dropdown {
-            transition: 0.3s;
-          
-            position: absolute;
-            top: 120%;
-            right: 0;
-            left: 0;
-          
-            margin: 0;
-            padding: 0;
-          
-            list-style: none;
-          
-            z-index: 99;
-          
-            border-radius: 15px;
-            box-shadow: inherit;
-            background: inherit;
-          
-            -webkit-transform-origin: top;
-            -moz-transform-origin: top;
-            -ms-transform-origin: top;
-            transform-origin: top;
-          
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-          
-            opacity: 0;
-            visibility: hidden;
-          }
-          
-          .wrapper-dropdown .dropdown li {
-            padding: 0 15px;
-            line-height: 45px;
-            overflow: hidden;
-          }
-          
-          
-          .wrapper-dropdown .dropdown li:last-child {
-            border-bottom: none;
-          }
-          
-          .tudo {
-            padding: 0.5rem !important;
-          }
-          
-          .wrapper-dropdown .dropdown li:hover {
-            background-color: #50abe4;
-            border-radius: 10px;
-          }
-          
-          .wrapper-dropdown.active .dropdown {
-            opacity: 1;
-            visibility: visible;
-          
-            border-radius: 15px;
-          }
+.selecionar{
+  display: flex;
+  border: 1px solid #ddd;
+  padding: 1em;
+  border-radius: 0.5em;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.selecionar-clicked{
+  border: 2px #87CEFA solid;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.seta{
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid black;
+  transition: 0.3s;
+}
+
+.seta-rotate{
+  transform: rotate(180deg);
+}
+
+.opcoes{
+  list-style: none;
+  padding: 0.2em 0.5em;
+  position: absolute;
+  margin-top: 10px;
+  border-radius: 0.5em;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  top: 4em;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  opacity: 0;
+  display: none;
+  transition: 0.2s;
+  z-index: 1;
+  background: white;
+}
+
+.ativo .opcoes{
+  display: block;
+}
+
+.opcoes li{
+  padding: 0.7em 0.5em;
+  margin: 0.3em 0;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+.opcoes li:hover{
+  background-color: #87CEFA;
+}
+
+.opcoes-open{
+  display: block;
+  opacity: 1;
+}
+
+.bloco-lista {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.caixa-aluno {
+  flex: 1 1 50%;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  background-color: #f3f3f3;
+  text-align: center;
+  cursor: pointer;
+}
+
+.caixa-aluno.falta {
+  background-color: #ffcccc;
+}
+
+div:active {
+  transform: translateY(5px);
+}
+
+.botao {
+  display: block;
+  padding: 25px;
+  background-color: #87CEFA;
+  color: black;
+  border: none;
+  cursor: pointer;
+  margin: 1rem auto;
+  width: auto;
+  box-shadow: 4px 4px 0px #50abe4;
+  transition: .3s;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  font-size: 15px;
+  transition-timing-function: ease-in-out;
+}
+
+button:active {
+  transform: translateY(15px);
+}
+
+#botao-salvar {
+  float: left;
+}
+
+#botao-confirmar {
+  float: right;
+}
+
+@media (max-width: 768px) {
+    .caixa-aluno {
+        flex: 1 1 100%;
+    }
+}

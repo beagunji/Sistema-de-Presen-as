@@ -1,95 +1,86 @@
-//aumentar fonte
-function mudarTamanhoFonte(type){
-    let txts = [".botaoVoltar",".h1", ".h2", ".h3", ".h4", "#span1", "#span2", "#span3", "#span4", "#span5",
-      "#span6", "#span7", "#span8", "#span9", "#span10", "#span11", "#span12", "#span13",
-      "#span14", "#span15", "#span16", "#span17", "#span18", "#span19",
-      "#blocoNomesTamanhoFonte", "#botao-salvar", "#botao-confirmar"];
-  
-    txts.forEach(txt => {
-  
-      let letra = document.querySelector(txt);
-  
-      if (letra) {
-        let tamanhoFonte = window.getComputedStyle(letra, null).getPropertyValue("font-size");
-  
-        tamanhoFonte = parseFloat(tamanhoFonte);
-  
-        if(type === "aumentar"){
-          letra.style.fontSize = (tamanhoFonte + 5) + "px";
-        }else{
-          letra.style.fontSize = (tamanhoFonte - 5) + "px";
-        }
-      }
-    })
+// Aumentar/diminuir fonte
+function mudarTamanhoFonte(type) {
+  const tamanho = type === 'aumentar' ? 2 : -2;
+  const elementos = document.querySelectorAll('.tamanhoFonte');
+
+  elementos.forEach(elemento => {
+    const tamanhoAtual = parseFloat(window.getComputedStyle(elemento, null).getPropertyValue('font-size'));
+    elemento.style.fontSize = `${tamanhoAtual + tamanho}px`;
+  });
 }
-  
-// Barras Dropdown
-const selectedAll = document.querySelectorAll(".wrapper-dropdown");
 
-selectedAll.forEach((selected) => {
-  const optionsContainer = selected.children[2];
-  const optionsList = selected.querySelectorAll("div.wrapper-dropdown li");
-
-  selected.addEventListener("click", () => {
-    let arrow = selected.children[1];
-
-    if (selected.classList.contains("active")) {
-      handleDropdown(selected, arrow, false);
-    } else {
-      let currentActive = document.querySelector(".wrapper-dropdown.active");
-
-      if (currentActive) {
-        let anotherArrow = currentActive.children[1];
-        handleDropdown(currentActive, anotherArrow, false);
+// Alterar fonte
+let currentFont = 'Poppins';
+let openDyslexicStyle = null;
+function mudarFonte() {
+  if (currentFont === 'Poppins') {
+    openDyslexicStyle = document.createElement('style');
+    openDyslexicStyle.appendChild(document.createTextNode(`
+      @font-face {
+        font-family: 'OpenDyslexicRegular';
+        src: url('http://www.andrearastelli.net/font/OpenDyslexic-Regular.otf') format('opentype');
+        src: url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.woff') format('woff'),
+             url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.ttf') format('truetype'),
+             url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.svg#opendyslexicregular') format('svg');
       }
-
-      handleDropdown(selected, arrow, true);
+    `));
+    document.head.appendChild(openDyslexicStyle);
+    const allElements = document.getElementsByTagName('*');
+    for (let i = 0; i < allElements.length; i++) {
+      allElements[i].style.fontFamily = 'OpenDyslexicRegular';
     }
-  });
 
-  for (let o of optionsList) {
-    o.addEventListener("click", () => {
-      selected.querySelector(".selected-display").innerHTML = o.innerHTML;
-    });
-  }
-});
-
-window.addEventListener("click", function (e) {
-  if (e.target.closest(".wrapper-dropdown") === null) {
-    closeAllDropdowns();
-  }
-});
-
-function closeAllDropdowns() {
-  const selectedAll = document.querySelectorAll(".wrapper-dropdown");
-  selectedAll.forEach((selected) => {
-    const optionsContainer = selected.children[2];
-    let arrow = selected.children[1];
-
-    handleDropdown(selected, arrow, false);
-  });
-}
-
-function handleDropdown(dropdown, arrow, open) {
-  if (open) {
-    arrow.classList.add("rotated");
-    dropdown.classList.add("active");
+    currentFont = 'OpenDyslexicRegular';
   } else {
-    arrow.classList.remove("rotated");
-    dropdown.classList.remove("active");
+    document.head.removeChild(openDyslexicStyle);
+    const allElements = document.getElementsByTagName('*');
+    for (let i = 0; i < allElements.length; i++) {
+      allElements[i].style.fontFamily = 'Poppins';
+    }
+    currentFont = 'Poppins';
   }
 }
+  
+// Menu dropdown
+const menus = document.querySelectorAll('.menu');
 
-/*------------------------------------------------------------------------------------------*/ 
+menus.forEach(menu => {
+  const selecionar = menu.querySelector('.selecionar');
+  const seta = menu.querySelector('.seta');
+  const opcoes = menu.querySelector('.opcoes');
+  const opcoesAll = menu.querySelectorAll('.opcoes li');
+  const selecionado = menu.querySelector('.selecionado');
 
-//Buscar todos os alunos
+
+  selecionar.addEventListener('click', () => {
+    selecionar.classList.toggle('selecionar-clicked');
+    seta.classList.toggle('seta-rotate');
+    opcoes.classList.toggle('opcoes-open');
+  });
+
+  opcoesAll.forEach(opcao => {
+    opcao.addEventListener('click', () => {
+      selecionado.innerText = opcao.innerText;
+      selecionar.classList.remove('selecionar-clicked');
+      seta.classList.remove('seta-rotate');
+      opcoes.classList.remove('opcoes-open');
+      opcoesAll.forEach(opcao => {
+        opcao.classList.remove('ativo');
+      });
+      opcao.classList.add('ativo');
+    });
+  });
+
+});
+
+// Buscar todos os alunos
 async function buscarAlunos() {
   const response = await fetch('http://localhost:3000/api/alunos');
   const dados = await response.json();
   return dados;
 }
 
-//Mostra todos os alunos
+// Mostra todos os alunos
 async function exibirAlunos() {
   try {
     const resposta = await buscarAlunos(); 

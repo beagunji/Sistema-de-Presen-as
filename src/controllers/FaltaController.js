@@ -18,6 +18,15 @@ module.exports = {
     res.json(json)
   },
 
+  buscarTodasFaltas: async (req, res) => {
+    try {
+        const faltas = await FaltaService.buscarTodasFaltas();
+        res.render('pagina_faltas', { faltas }); // Supondo que você tenha um arquivo HTML/EJS chamado pagina_faltas para renderizar os dados
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar as faltas.' });
+    }
+  },
+
   confirmarFalta: async (req, res) => {
     const { faltasEnviar } = req.body;
 

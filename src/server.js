@@ -4,11 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path'); 
 
-const fs = require('fs');
-
 const routes = require('./routes');
-
-const FaltaService = require('./services/FaltaService');
 
 const server = express();
 server.use(cors());

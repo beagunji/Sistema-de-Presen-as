@@ -7,99 +7,92 @@
   <title>Lista Presença</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <!--
+    Beatriz Hitomi Gunji - RA: 10402435
+    Giovana Gomes Leal - RA: 10401161
+    Vitor Akira Uehara - RA: 10401164
+   -->
 </head>
 
-  <body>
-    <div class="dropdown">
-
-      <button class="botaoVoltar" id="botãoConfirmar">Voltar</button>
-
+  <body class ="tamanhoFonte">
+    <header>
+      <section class="botoesCima">
+        <button class="botaoVoltar tamanhoFonte" id="botãoConfirmar">Voltar</button>
+        <a href="relatorio_faltas.html">Relatorio de Faltas</a>
+        <button class="botaoLetra tamanhoFonte" id="botaoMudarLetra" onclick="mudarFonte()" onclick="">Mudar Fonte</button>
+      </section>
+  
       <section class="aumentarFonte">
-        <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA" id="botaoAMais">A+</button>
-        <button onclick="mudarTamanhoFonte('diminuir')" class="botaoA" id="botãoAMenos">A-</button>
+        <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA tamanhoFonte" id="botaoAMais">A+</button>
+        <button onclick="mudarTamanhoFonte('diminuir')" class="botaoA tamanhoFonte" id="botãoAMenos">A-</button>
       </section>
+  
+      <h1 class="tamanhoFonte">LISTA DE PRESENÇA</h1>
+    </header>
 
-      <h1 class="h1">LISTA DE PRESENÇA</h1>
-    </div>
-
-    <div class="menuSelecionar">
-      <div class="container">
-        <div class="setting-description">
-          <div class="setting-description-text" style="margin-left: 15px">
-            <h10 class="h2">Professor:</h10>
-          </div>
-        </div>
-        <div class="wrapper-dropdown" id="dropdown">
-          <span class="selected-display" class="span1" id="destination" >Selecione um professor</span>
-          <svg class="arrow" id="drp-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-all ml-auto rotate-180">
-            <path d="M7 14.5l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <ul class="dropdown">
-            <li class="item" id="span2">Professor 1</li>
-            <li class="item" id="span3">Professor 2</li>
-            <li class="item" id="span4">Professor 3</li>
-          </ul>
-        </div>
-
-        <br>
-
-        <div class="setting-description">
-          <div class="setting-description-text" style="margin-left: 15px">
-            <h10 class="h3">Disciplina</h10>
-          </div>
-        </div>
-        <div class="wrapper-dropdown" id="dropdown">
-          <span class="selected-display" id="destination" class="span5">Escolha uma disciplina:</span>
-          <svg class="arrow" id="drp-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-all ml-auto rotate-180">
-            <path d="M7 14.5l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <ul class="dropdown">
-            <li class="item" id="span6">Matemática</li>
-            <li class="item" id="span7">Português</li>
-            <li class="item" id="span8">Artes</li>
-            <li class="item" id="span9">Ciências</li>
-            <li class="item" id="span10">História</li>
-            <li class="item" id="span11">Geografia</li>
-            <li class="item" id="span12">Educação Física</li>
-            <li class="item" id="span13">Inglês</li>
-          </ul>
-        </div>
-
-        <div class="setting-description">
-          <div class="setting-description-text" style="margin-left: 15px">
-            <h10 class="h4">Turma:</h10>
-          </div>
-        </div>
-        <div class="wrapper-dropdown" id="dropdown">
-          <span class="selected-display" id="destination" class="span14">Selecione uma turma:</span>
-          <svg class="arrow" id="drp-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-all ml-auto rotate-180">
-            <path d="M7 14.5l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <ul class="dropdown">
-            <li class="item" id="span15">1º Ano</li>
-            <li class="item" id="span16">2º Ano</li>
-            <li class="item" id="span17">3º Ano</li>
-            <li class="item" id="span18">4º Ano</li>
-            <li class="item" id="span19">5º Ano</li>
-          </ul>
-        </div>
+    <h3 class="tamanhoFonte">Professor:</h3>
+    <div class="menu" id="menu-professor">
+      <div class="selecionar">
+        <span class="selecionado">Selecione um professor</span>
+        <div class="seta"></div>
       </div>
+      
+      <ul class="opcoes">
+        <li class="ativo tamanhoFonte">Coraline</li>
+        <li class="tamanhoFonte">Anna</li>
+        <li class="tamanhoFonte">Marcelo</li>
+      </ul>
+    </div>
+    
+    <br>
+
+    <h3 class="tamanhoFonte">Disciplina:</h3>
+    <div class="menu" id="menu-disciplina">
+      <div class="selecionar">
+        <span class="selecionado">Selecione uma disciplina</span>
+        <div class="seta"></div>
+      </div>
+  
+      <ul class="opcoes">
+        <li class="ativo tamanhoFonte">Matemática</li>
+        <li class="tamanhoFonte">Português</li>
+        <li class="tamanhoFonte">Artes</li>
+        <li class="tamanhoFonte">Ciências</li>
+        <li class="tamanhoFonte">História</li>
+        <li class="tamanhoFonte">Geografia</li>
+        <li class="tamanhoFonte">Educação Física</li>
+        <li class="tamanhoFonte">Inglês</li>
+      </ul>
     </div>
 
-    <div class="menuuSelecionar">
-      <section class="bloco-lista" class="caixa-aluno" id="lista-alunos">
+    <br>
+
+    <h3 class="tamanhoFonte">Turma:</h3>
+    <div class="menu" id="menu-turma">
+      <div class="selecionar">
+        <span class="selecionado">Selecione uma turma</span>
+        <div class="seta"></div>
+      </div>
+  
+      <ul class="opcoes">
+        <li class="ativo tamanhoFonte">1º Ano</li>
+        <li class="tamanhoFonte">2º Ano</li>
+        <li class="tamanhoFonte">3º Ano</li>
+        <li class="tamanhoFonte">4º Ano</li>
+        <li class="tamanhoFonte">5º Ano</li>
+      </ul>
+    </div>
+
+    <section class="bloco-lista" class="caixa-aluno" id="lista-alunos" id="blocoNomesTamanhoFonte">
         <!-- Aqui serão inseridos os alunos dinamicamente -->
-      </section>
+    </section>
     
 
-      <button type="button" class="botao" id="botao-salvar">Salvar</button>
+    <button type="button" class="botao" id="botao-salvar" id="botao-salvar" id="botao-salvar">Salvar</button>
 
-      <button type="button" class="botao" id="botao-confirmar">Confirmar</button>
-    </div>
+    <button type="button" class="botao" id="botao-confirmar" id="botao-confirmar">Confirmar</button>
 
-    <script src="script.js">
-    
-    </script>
+    <script src="script.js"></script>
   </body>
 
 </html>
