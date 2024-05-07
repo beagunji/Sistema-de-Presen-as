@@ -21,12 +21,9 @@
             <option value="5" class="opcoes">5º ano</option>
         </select>
 
-     
-        <input type="text" placeholder="YYYY/MM/DD" onfocus="this.type='date'" onblur="this.type='text'" class="calendario">
-        
+        <input type="text" placeholder="DD/MM/YYYY" onfocus="this.type='date'" onblur="this.type='text'" class="calendario">        
         
         <button class="botaoLetra tamanhoFonte" id="botaoMudarLetra" onclick="jumpButtonL(); mudarFonte()" onclick="">Mudar Fonte</button>
-
 
         <section class="aumentarFonte tamanhoFonte">
           <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA tamanhoFonte" id="botaoAMais">A+</button>
@@ -37,16 +34,15 @@
         <table id="relatorio">
             <thead>
                 <tr>
-                    <th class="tamanhoFonte">Data</th>
-                    <th class="tamanhoFonte">Nome do Aluno</th>
-                    <th class="tamanhoFonte">Nome do Professor</th>
-                    <th class="tamanhoFonte">Disciplina</th>
-                    <th class="tamanhoFonte">Qtde de Faltas</th>
-                    <th class="tamanhoFonte" id="porcfaltas">% de Faltas</th>
+                    <th scope="col" class="tamanhoFonte">Data</th>
+                    <th scope="col" class="tamanhoFonte">Cod do Aluno</th>
+                    <th scope="col" class="tamanhoFonte">Qtde de Faltas</th>
+                    <th scope="col" class="tamanhoFonte">% de Faltas</th>
+                    <th scope="col" class="tamanhoFonte">Deletar</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Adicionar dados-->
+                
             </tbody>
         </table>
     </main>

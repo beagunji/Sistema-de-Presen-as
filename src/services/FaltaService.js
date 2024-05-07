@@ -13,12 +13,12 @@ module.exports = {
         });
     },
 
-    buscarTodasFaltas: () => {
+    buscarFaltas: () => {
       return new Promise((aceito, rejeitado) => {
-          db.query('SELECT * FROM Faltas', (error, results) => {
-              if(error) { rejeitado(error); return; }
-              aceito(results);
-          });
+        db.query('SELECT * FROM Novas_Faltas', (error, results) => {
+          if (error) { rejeitado(error); return; }
+          aceito(results);
+        });
       });
     },
 

@@ -6,6 +6,7 @@ const FaltaController = require('./controllers/FaltaController');
 router.get('/alunos', FaltaController.buscarTodos);
 
 router.post('/faltas', FaltaController.confirmarFalta);
-router.get('/faltas', FaltaController.buscarTodasFaltas);
+
+router.get('/faltas', FaltaController.buscarFaltas);
 
 module.exports = router;

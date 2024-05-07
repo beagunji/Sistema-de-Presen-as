@@ -18,12 +18,25 @@ module.exports = {
     res.json(json)
   },
 
-  buscarTodasFaltas: async (req, res) => {
+  buscarFaltas: async (req, res) => {
+    let json = { error: '', result: [] };
+  
     try {
-        const faltas = await FaltaService.buscarTodasFaltas();
-        res.render('pagina_faltas', { faltas }); // Supondo que você tenha um arquivo HTML/EJS chamado pagina_faltas para renderizar os dados
+      let faltas = await FaltaService.buscarFaltas();
+  
+      for (let i in faltas) {
+        json.result.push({
+          data: faltas[i].Datas,
+          codigoAluno: faltas[i].Cod_Aluno,
+          qtdeFaltas: faltas[i].Qtde_Faltas,
+          porcFaltas: faltas[i].Porc_Faltas
+        });
+      }
+  
+      res.json(json);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar as faltas.' });
+      console.error('Erro ao buscar faltas:', error);
+      res.status(500).json({ error: 'Erro ao buscar as faltas.' });
     }
   },
 
@@ -38,7 +51,6 @@ module.exports = {
       res.status(500).json({ error: 'Erro ao registrar as faltas.' });
     }
   }
-
 };
 
 
