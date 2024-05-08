@@ -3,4 +3,4 @@ Prática Profissional em Análise e Desenvolvimento de Sistemas - 1º semestre d
 ------------------------------------------------------------------------------------------------
 Link para o Replit: https://replit.com/join/qlxkaoaghd-applepli
 
-Link do Video: https://youtu.be/dlVMb8GMI1E
+Link do Video: https://youtu.be/ciPyfjRxD0s
