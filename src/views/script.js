@@ -73,6 +73,157 @@ menus.forEach(menu => {
 
 });
 
+// Buscar todos os professores
+let nomeProfessorSelecionado = '';
+
+async function buscarProfessores() {
+  const response = await fetch('http://localhost:3000/api/professores');
+  const dados = await response.json();
+  return dados;
+}
+
+// Mostra todos os professores
+async function exibirProfessores() {
+  try {
+      const resposta = await buscarProfessores();
+      const professores = resposta.result;
+
+      const listaProfessores = document.getElementById('menu-professor').querySelector('.opcoes');
+
+      listaProfessores.innerHTML = '';
+
+      professores.forEach(professor => {
+          const opcaoProfessor = document.createElement('li');
+          opcaoProfessor.textContent = professor.nomeprof;
+          opcaoProfessor.classList.add('tamanhoFonte');
+          listaProfessores.appendChild(opcaoProfessor);
+
+          opcaoProfessor.addEventListener('click', () => {
+            const selecionado = document.querySelector('.menu#menu-professor .selecionado');
+            selecionado.textContent = professor.nomeprof;
+            nomeProfessorSelecionado = professor.nomeprof;
+          });
+      });
+  } catch (error) {
+      console.error('Erro ao buscar e exibir os professores:', error);
+  }
+}
+
+// Buscar todas as disciplinas
+let nomeDisciplinaSelecionada = '';
+
+async function buscarDisciplinas() {
+  const response = await fetch('http://localhost:3000/api/disciplinas');
+  const dados = await response.json();
+  return dados;
+}
+
+// Mostrar todas as disciplinas
+async function exibirDisciplinas() {
+  try {
+    const resposta = await buscarDisciplinas();
+    const disciplinas = resposta.result;
+
+    const listaDisciplinas = document.getElementById('menu-disciplina').querySelector('.opcoes');
+
+    listaDisciplinas.innerHTML = '';
+
+    disciplinas.forEach(disciplina => {
+      const opcaoDisciplina = document.createElement('li');
+      opcaoDisciplina.textContent = disciplina.nome;
+      opcaoDisciplina.classList.add('tamanhoFonte');
+      listaDisciplinas.appendChild(opcaoDisciplina);
+
+      opcaoDisciplina.addEventListener('click', () => {
+        const selecionado = document.querySelector('.menu#menu-disciplina .selecionado');
+        selecionado.textContent = disciplina.nome;
+        nomeDisciplinaSelecionada = disciplina.nome;
+      });
+    });
+  } catch (error) {
+    console.error('Erro ao buscar e exibir as disciplinas:', error);
+  }
+}
+
+// Buscar todas as turmas
+async function buscarTurmas() {
+  const response = await fetch('http://localhost:3000/api/turmas');
+  const dados = await response.json();
+  return dados;
+}
+
+// Mostrar todas as turmas
+async function exibirTurmas() {
+  try {
+      const resposta = await buscarTurmas();
+      const turmas = resposta.result;
+
+      const listaTurmas = document.getElementById('menu-turma').querySelector('.opcoes');
+      listaTurmas.innerHTML = '';
+
+      turmas.forEach(turma => {
+          const opcaoTurma = document.createElement('li');
+          opcaoTurma.textContent = turma.numero;
+          opcaoTurma.classList.add('tamanhoFonte');
+          opcaoTurma.dataset.codigo = turma.codigo;
+          listaTurmas.appendChild(opcaoTurma);
+
+          opcaoTurma.addEventListener('click', () => {
+              const selecionado = document.querySelector('.menu#menu-turma .selecionado');
+              selecionado.textContent = turma.numero;
+          });
+      });
+  } catch (error) {
+      console.error('Erro ao buscar e exibir turmas:', error);
+  }
+}
+
+// Buscar alunos por turma
+async function buscarAlunosPorTurma(cod_turma) {
+  const response = await fetch(`http://localhost:3000/api/alunos/turma/${cod_turma}`);
+  const dados = await response.json();
+  return dados;
+}
+
+// Função para exibir alunos de uma turma selecionada
+async function exibirAlunosPorTurma(cod_turma) {
+  try {
+    const resposta = await buscarAlunosPorTurma(cod_turma);
+    const alunos = resposta.result;
+
+    const listaAlunos = document.getElementById('lista-alunos');
+    listaAlunos.innerHTML = ''; // Limpa a lista de alunos
+
+    if (alunos.length > 0) {
+      alunos.forEach(aluno => {
+        const caixaAluno = document.createElement('div');
+        caixaAluno.classList.add('caixa-aluno');
+        caixaAluno.dataset.codAluno = aluno.codigo;
+
+        const nomeAluno = document.createElement('div');
+        nomeAluno.classList.add('nome-aluno');
+        nomeAluno.textContent = aluno.nome;
+
+        caixaAluno.appendChild(nomeAluno);
+        listaAlunos.appendChild(caixaAluno);
+      });
+    } else {
+      listaAlunos.innerHTML = '<p>Não há alunos nesta turma.</p>';
+    }
+  } catch (error) {
+    console.error('Erro ao buscar e exibir os alunos:', error);
+  }
+}
+
+// Atualizar exibição de alunos quando uma turma for selecionada
+document.getElementById('menu-turma').addEventListener('click', async (event) => {
+  const selectedItem = event.target.closest('li');
+  if (selectedItem) {
+      const cod_turma = selectedItem.dataset.codigo;
+      await exibirAlunosPorTurma(cod_turma);
+  }
+});
+
 // Buscar todos os alunos
 async function buscarAlunos() {
   const response = await fetch('http://localhost:3000/api/alunos');
@@ -119,30 +270,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const enviarPresencaBtn = document.getElementById('botao-confirmar');
     const faltas = {}; // Objeto para armazenar as faltas
 
-    if (listaAluno && enviarPresencaBtn) {
-        listaAluno.addEventListener('click', (event) => {
-            const divAluno = event.target.closest('.caixa-aluno');
-            if (divAluno) {
-                divAluno.classList.toggle('falta');
+    document.getElementById('menu-turma').addEventListener('click', (event) => {
+      const opcaoTurma = event.target.closest('li');
+      if (opcaoTurma) {
+        const codTurma = opcaoTurma.dataset.codigo;
+        exibirAlunosPorTurma(codTurma);
+      }
+    });
 
-                // Armazenar a falta se a div estiver com a classe falta
-                const codigoAluno = divAluno.dataset.codAluno;
-                console.log('Codigo do aluno:', codigoAluno)
-                if (divAluno.classList.contains('falta')) {
-                    if (!faltas[codigoAluno]) {
-                        faltas[codigoAluno] = [];
-                    }
-                    const dataAtual = new Date().toISOString().split('T')[0];
-                    faltas[codigoAluno].push(dataAtual);
-                } else {
-                    // Remover a falta se a div não estiver com a classe falta
-                    const index = faltas[codigoAluno].indexOf(dataAtual);
-                    if (index !== -1) {
-                        faltas[codigoAluno].splice(index, 1);
-                    }
+    if (listaAluno && enviarPresencaBtn) {
+      listaAluno.addEventListener('click', (event) => {
+        const divAluno = event.target.closest('.caixa-aluno');
+        if (divAluno) {
+          divAluno.classList.toggle('falta');
+          const codigoAluno = divAluno.dataset.codAluno;
+          if (divAluno.classList.contains('falta')) {
+            if (!faltas[codigoAluno]) {
+                faltas[codigoAluno] = 1;
+            } else {
+                faltas[codigoAluno]++;
+            }
+        } else {
+            if (faltas[codigoAluno]) {
+                faltas[codigoAluno]--;
+                if (faltas[codigoAluno] === 0) {
+                    delete faltas[codigoAluno];
                 }
             }
-        });
+        }
+        }
+    });
 
         enviarPresencaBtn.addEventListener('click', async () => {
           const alunosFaltas = document.querySelectorAll('.falta.caixa-aluno');
@@ -150,7 +307,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
           alunosFaltas.forEach(aluno => {
             const codAluno = aluno.dataset.codAluno;
-            faltasEnviar.push({ codAluno: parseInt(codAluno) }); // Convert to integer
+            faltasEnviar.push({ codAluno: parseInt(codAluno) });
+          
+            for (let codAluno in faltas) {
+              faltasEnviar.push({
+                  codAluno: codAluno,
+                  qtdeFaltas: faltas[codAluno],
+                  nomeProfessor: nomeProfessorSelecionado, // Adiciona o nome do professor
+                  nomeDisciplina: nomeDisciplinaSelecionada // Adiciona o nome da disciplina
+              });
+          }
           });
         
           try {
@@ -174,4 +340,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-window.onload = exibirAlunos;
+document.addEventListener('DOMContentLoaded', () => {
+  exibirProfessores();
+  exibirDisciplinas();
+  exibirTurmas();
+});

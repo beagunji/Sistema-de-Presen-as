@@ -14,85 +14,72 @@
    -->
 </head>
 
-  <body class ="tamanhoFonte">
-    <header>
-      <section class="botoesCima">
-        <button class="botaoVoltar tamanhoFonte" id="botãoConfirmar">Voltar</button>
-        <a href="relatorio_faltas.html">Relatorio de Faltas</a>
-        <button class="botaoLetra tamanhoFonte" id="botaoMudarLetra" onclick="mudarFonte()" onclick="">Mudar Fonte</button>
-      </section>
-  
-      <section class="aumentarFonte">
-        <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA tamanhoFonte" id="botaoAMais">A+</button>
-        <button onclick="mudarTamanhoFonte('diminuir')" class="botaoA tamanhoFonte" id="botãoAMenos">A-</button>
-      </section>
-  
-      <h1 class="tamanhoFonte">LISTA DE PRESENÇA</h1>
-    </header>
-
-    <h3 class="tamanhoFonte">Professor:</h3>
-    <div class="menu" id="menu-professor">
-      <div class="selecionar">
-        <span class="selecionado">Selecione um professor</span>
-        <div class="seta"></div>
-      </div>
-      
-      <ul class="opcoes">
-        <li class="ativo tamanhoFonte">Coraline</li>
-        <li class="tamanhoFonte">Anna</li>
-        <li class="tamanhoFonte">Marcelo</li>
-      </ul>
-    </div>
-    
-    <br>
-
-    <h3 class="tamanhoFonte">Disciplina:</h3>
-    <div class="menu" id="menu-disciplina">
-      <div class="selecionar">
-        <span class="selecionado">Selecione uma disciplina</span>
-        <div class="seta"></div>
-      </div>
-  
-      <ul class="opcoes">
-        <li class="ativo tamanhoFonte">Matemática</li>
-        <li class="tamanhoFonte">Português</li>
-        <li class="tamanhoFonte">Artes</li>
-        <li class="tamanhoFonte">Ciências</li>
-        <li class="tamanhoFonte">História</li>
-        <li class="tamanhoFonte">Geografia</li>
-        <li class="tamanhoFonte">Educação Física</li>
-        <li class="tamanhoFonte">Inglês</li>
-      </ul>
-    </div>
-
-    <br>
-
-    <h3 class="tamanhoFonte">Turma:</h3>
-    <div class="menu" id="menu-turma">
-      <div class="selecionar">
-        <span class="selecionado">Selecione uma turma</span>
-        <div class="seta"></div>
-      </div>
-  
-      <ul class="opcoes">
-        <li class="ativo tamanhoFonte">1º Ano</li>
-        <li class="tamanhoFonte">2º Ano</li>
-        <li class="tamanhoFonte">3º Ano</li>
-        <li class="tamanhoFonte">4º Ano</li>
-        <li class="tamanhoFonte">5º Ano</li>
-      </ul>
-    </div>
-
-    <section class="bloco-lista" class="caixa-aluno" id="lista-alunos" id="blocoNomesTamanhoFonte">
-        <!-- Aqui serão inseridos os alunos dinamicamente -->
+<body class="tamanhoFonte">
+  <header>
+    <section class="botoesCima">
+      <button class="botaoVoltar tamanhoFonte" id="botaoConfirmar">Voltar</button>
+      <a href="relatorio_faltas.html">Relatorio de Faltas</a>
+      <button class="botaoLetra tamanhoFonte" id="botaoMudarLetra" onclick="mudarFonte()">Mudar Fonte</button>
     </section>
-    
 
-    <button type="button" class="botao" id="botao-salvar" id="botao-salvar" id="botao-salvar">Salvar</button>
+    <section class="aumentarFonte">
+      <button onclick="mudarTamanhoFonte('aumentar')" class="botaoA tamanhoFonte" id="botaoAMais">A+</button>
+      <button onclick="mudarTamanhoFonte('diminuir')" class="botaoA tamanhoFonte" id="botaoAMenos">A-</button>
+    </section>
 
-    <button type="button" class="botao" id="botao-confirmar" id="botao-confirmar">Confirmar</button>
+    <h1 class="tamanhoFonte">LISTA DE PRESENÇA</h1>
+  </header>
 
-    <script src="script.js"></script>
-  </body>
+  <div class="container-menu">
+    <div class="menu-group">
+      <h3 class="tamanhoFonte">Professor:</h3>
+      <div class="menu" id="menu-professor">
+        <div class="selecionar">
+          <span class="selecionado">Selecione um professor</span>
+          <div class="seta"></div>
+        </div>
+        <ul class="opcoes">
+          <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu-group">
+      <h3 class="tamanhoFonte">Disciplina:</h3>
+      <div class="menu" id="menu-disciplina">
+        <div class="selecionar">
+          <span class="selecionado">Selecione uma disciplina</span>
+          <div class="seta"></div>
+        </div>
+        <ul class="opcoes">
+          <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu-group">
+      <h3 class="tamanhoFonte">Turma:</h3>
+      <div class="menu" id="menu-turma">
+        <div class="selecionar">
+          <span class="selecionado">Selecione uma turma</span>
+          <div class="seta"></div>
+        </div>
+        <ul class="opcoes">
+          <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <section class="bloco-lista" id="lista-alunos">
+    <p id="mensagem-inicial">Escolha uma turma para ver os alunos.</p>
+    <!-- Aqui serão inseridos os alunos dinamicamente -->
+  </section>
+
+  <button type="button" class="botao" id="botao-salvar">Salvar</button>
+  <button type="button" class="botao" id="botao-confirmar">Confirmar</button>
+
+  <script src="script.js"></script>
+</body>
 
 </html>

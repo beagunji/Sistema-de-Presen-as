@@ -13,6 +13,50 @@ module.exports = {
         });
     },
 
+    // Buscar professores
+    buscarProfessores: () => {
+      return new Promise((aceito, rejeitado) => {
+          db.query('SELECT * FROM Professor', (error, results) => {
+              if (error) {
+                  rejeitado(error);
+                  return;
+              }
+              aceito(results);
+          });
+      });
+  },
+  // Buscar disciplinas
+  buscarDisciplinas: () => {
+    return new Promise((aceito, rejeitado) => {
+      db.query('SELECT * FROM Disciplina', (error, results) => {
+        if (error) {
+          rejeitado(error);
+          return;
+        }
+        aceito(results);
+      });
+    });
+  },
+
+  // Buscar turma
+  buscarTurmas: () => {
+    return new Promise((aceito, rejeitado) => {
+        db.query('SELECT * FROM Turmas', (error, results) => {
+            if (error) { rejeitado(error); return; }
+            aceito(results);
+        });
+    });
+  },
+
+  buscarAlunosPorTurma: (cod_turma) => {
+    return new Promise((aceito, rejeitado) => {
+        db.query('SELECT * FROM Alunos WHERE Cod_Turma = ?', [cod_turma], (error, results) => {
+            if (error) { rejeitado(error); return; }
+            aceito(results);
+        });
+    });
+  },
+
     buscarFaltas: () => {
       return new Promise((aceito, rejeitado) => {
         db.query('SELECT * FROM Novas_Faltas', (error, results) => {
@@ -26,7 +70,7 @@ module.exports = {
         return new Promise((aceito, rejeitado) => {
           const inserts = faltasEnviar.map(falta => {
             return new Promise((resolve, reject) => {
-              db.query('INSERT INTO Faltas (Cod_Aluno, Qtde_Faltas, Datas) VALUES (?, ?, CURDATE())', [falta.codAluno, 1], (error, results) => {
+              db.query('INSERT INTO Faltas (Cod_Aluno, Qtde_Faltas, Datas, Nome_Prof, Nome_Disc) VALUES (?, ?, CURDATE(), ?, ?)',  [falta.codAluno, falta.qtdeFaltas, falta.nomeProfessor, falta.nomeDisciplina], (error, results) => {
                 if(error) { reject(error); return; }
                 resolve(results);
               });
@@ -37,6 +81,16 @@ module.exports = {
             .then(() => aceito())
             .catch(error => rejeitado(error));
         });
-    }
-    
+    },
+  
+    // Deletar faltas
+  deletarFalta: (codAluno, data) => {
+    return new Promise((aceito, rejeitado) => {
+      db.query('DELETE FROM Novas_Faltas WHERE Cod_Aluno = ? AND Datas = ?', [codAluno, data], (error, results) => {
+        if (error) { rejeitado(error); return; }
+        aceito(results);
+      });
+    });
+  }  
+  
 };
