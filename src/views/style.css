@@ -225,14 +225,6 @@ button:active {
   transform: translateY(15px);
 }
 
-#botao-salvar {
-  float: left;
-}
-
-#botao-confirmar {
-  float: right;
-}
-
 #mensagem-inicial {
   text-align: center; /* Centraliza o texto horizontalmente */
   font-weight: bold;  /* Deixa o texto em negrito */

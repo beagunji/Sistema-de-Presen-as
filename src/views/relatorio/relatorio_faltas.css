@@ -161,8 +161,6 @@ h1{
   cursor: pointer;
 }
 
-
-
 main {
     margin-top: 10%;
     padding: 20px;
@@ -192,6 +190,9 @@ footer {
     left: 0;
     padding: 10px 20px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 button {
@@ -231,7 +232,6 @@ button {
 .imprimirB.active {
   transform: translateY(3px);
 }
-
 
 @media (max-width: 768px) {
   table {

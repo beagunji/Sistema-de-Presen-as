@@ -75,6 +75,16 @@ module.exports = {
       });
     },
 
+  // Buscar faltas por data
+  buscarFaltasPorData: (data) => {
+    return new Promise((aceito, rejeitado) => {
+      db.query('SELECT * FROM Novas_Faltas WHERE Datas = ?', [data], (error, results) => {
+        if (error) { rejeitado(error); return; }
+        aceito(results);
+      });
+    });
+  },
+
     registrarFaltas: (faltasEnviar) => {
       return new Promise((aceito, rejeitado) => {
         const inserts = faltasEnviar.map(falta => {

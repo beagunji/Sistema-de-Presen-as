@@ -142,6 +142,32 @@ buscarFaltasPorTurma: async (req, res) => {
   }
   },
 
+  // Buscar faltas por data
+buscarFaltasPorData: async (req, res) => {
+  let json = { error: '', result: [] };
+  let dataBusca = req.params.data;
+
+  try {
+    let faltas = await FaltaService.buscarFaltasPorData(dataBusca);
+    for (let i in faltas) {
+      json.result.push({
+        codFalta: faltas[i].Cod_Nova_Falta,
+        data: faltas[i].Datas,
+        nomeAluno: faltas[i].Nome_Aluno,
+        nomeProf: faltas[i].Nome_Prof,
+        nomeDisc: faltas[i].Nome_Disc,
+        nomeTurma: faltas[i].Num_Turma,
+        qtdeFaltas: faltas[i].Qtde_Faltas,
+        porcFaltas: faltas[i].Porc_Faltas
+      });
+    }
+    res.json(json);
+  } catch (error) {
+    console.error('Erro ao buscar faltas por data:', error);
+    res.status(500).json({ error: 'Erro ao buscar as faltas.' });
+  }
+  },
+
   // Confirma faltas
   confirmarFalta: async (req, res) => {
     const { faltasEnviar } = req.body;

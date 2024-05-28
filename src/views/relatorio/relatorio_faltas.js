@@ -139,6 +139,44 @@ async function exibirFaltasPorTurma(cod_turma) {
   }
 }
 
+async function exibirFaltasPorData(dataBusca) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/faltas/data/${dataBusca}`);
+    const data = await response.json();
+    const faltas = data.result;
+
+    const tbody = document.querySelector('#relatorio tbody');
+    tbody.innerHTML = '';
+
+    faltas.forEach(falta => {
+      const dataFormatada = new Date(falta.data).toLocaleDateString();
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${dataFormatada}</td>
+        <td>${falta.nomeAluno}</td>
+        <td>${falta.nomeProf}</td>
+        <td>${falta.nomeDisc}</td>
+        <td>${falta.nomeTurma}</td>
+        <td>${falta.qtdeFaltas}</td>
+        <td>${falta.porcFaltas}</td>
+        <td><button onclick="deletarFalta(${falta.codFalta})">Deletar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    console.error('Erro ao buscar faltas por data:', error);
+  }
+}
+
+document.querySelector('.calendario').addEventListener('change', function() {
+  const dataBusca = this.value;
+  if (dataBusca) {
+    exibirFaltasPorData(dataBusca);
+  } else {
+    exibirFaltas();
+  }
+});
+
 async function buscarFaltas() {
   try {
     const response = await fetch('http://localhost:3000/api/faltas');
