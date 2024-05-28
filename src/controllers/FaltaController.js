@@ -99,8 +99,12 @@ buscarDisciplinas: async (req, res) => {
   
       for (let i in faltas) {
         json.result.push({
+          codFalta: faltas[i].Cod_Nova_Falta,
           data: faltas[i].Datas,
-          codigoAluno: faltas[i].Cod_Aluno,
+          nomeAluno: faltas[i].Nome_Aluno,
+          nomeProf: faltas[i].Nome_Prof,
+          nomeDisc: faltas[i].Nome_Disc,
+          nomeTurma: faltas[i].Num_Turma,
           qtdeFaltas: faltas[i].Qtde_Faltas,
           porcFaltas: faltas[i].Porc_Faltas
         });
@@ -111,6 +115,31 @@ buscarDisciplinas: async (req, res) => {
       console.error('Erro ao buscar faltas:', error);
       res.status(500).json({ error: 'Erro ao buscar as faltas.' });
     }
+  },
+
+  // Buscar faltas por turma
+buscarFaltasPorTurma: async (req, res) => {
+  let json = { error: '', result: [] };
+  let cod_turma = req.params.cod_turma;
+
+  try {
+    let faltas = await FaltaService.buscarFaltasPorTurma(cod_turma);
+    for (let i in faltas) {
+      json.result.push({
+        data: faltas[i].Datas,
+        nomeAluno: faltas[i].Nome_Aluno,
+        nomeProf: faltas[i].Nome_Prof,
+        nomeDisc: faltas[i].Nome_Disc,
+        nomeTurma: faltas[i].Num_Turma,
+        qtdeFaltas: faltas[i].Qtde_Faltas,
+        porcFaltas: faltas[i].Porc_Faltas
+      });
+    }
+    res.json(json);
+  } catch (error) {
+    console.error('Erro ao buscar faltas:', error);
+    res.status(500).json({ error: 'Erro ao buscar as faltas.' });
+  }
   },
 
   // Confirma faltas
@@ -129,13 +158,12 @@ buscarDisciplinas: async (req, res) => {
 
   // Deletar faltas
   deletarFalta: async (req, res) => {
-    const { codAluno, data } = req.body;
-    
+    const { codFalta } = req.params;
     try {
-      await FaltaService.deletarFalta(codAluno, data);
+      await FaltaService.deletarFalta(codFalta);
       res.status(200).json({ message: 'Falta deletada com sucesso!' });
     } catch (error) {
-      console.error('Erro ao deletar falta:', error);
+      console.error('Erro ao deletar a falta:', error);
       res.status(500).json({ error: 'Erro ao deletar a falta.' });
     }
   }

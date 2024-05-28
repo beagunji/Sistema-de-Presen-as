@@ -12,31 +12,27 @@ function mudarTamanhoFonte(type) {
 // Alterar fonte
 let currentFont = 'Poppins';
 let openDyslexicStyle = null;
+
 function mudarFonte() {
   if (currentFont === 'Poppins') {
     openDyslexicStyle = document.createElement('style');
-    openDyslexicStyle.appendChild(document.createTextNode(`
-      @font-face {
-        font-family: 'OpenDyslexicRegular';
-        src: url('http://www.andrearastelli.net/font/OpenDyslexic-Regular.otf') format('opentype');
-        src: url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.woff') format('woff'),
-             url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.ttf') format('truetype'),
-             url('http://www.andrearastelli.net/font/opendyslexic-regular-webfont.svg#opendyslexicregular') format('svg');
-      }
-    `));
+    openDyslexicStyle.appendChild(document.createTextNode('OpenDyslexic'));
     document.head.appendChild(openDyslexicStyle);
-    const allElements = document.getElementsByTagName('*');
+
+    const allElements = document.getElementsByTagName('');
     for (let i = 0; i < allElements.length; i++) {
-      allElements[i].style.fontFamily = 'OpenDyslexicRegular';
+      allElements[i].style.fontFamily = 'OpenDyslexic';
     }
 
-    currentFont = 'OpenDyslexicRegular';
+    currentFont = 'OpenDyslexic';
   } else {
     document.head.removeChild(openDyslexicStyle);
-    const allElements = document.getElementsByTagName('*');
+
+    const allElements = document.getElementsByTagName('');
     for (let i = 0; i < allElements.length; i++) {
       allElements[i].style.fontFamily = 'Poppins';
     }
+
     currentFont = 'Poppins';
   }
 }
@@ -75,6 +71,7 @@ menus.forEach(menu => {
 
 // Buscar todos os professores
 let nomeProfessorSelecionado = '';
+let codigoProfessorSelecionado = ''; // Adicionando o código do professor
 
 async function buscarProfessores() {
   const response = await fetch('http://localhost:3000/api/professores');
@@ -96,12 +93,14 @@ async function exibirProfessores() {
           const opcaoProfessor = document.createElement('li');
           opcaoProfessor.textContent = professor.nomeprof;
           opcaoProfessor.classList.add('tamanhoFonte');
+          opcaoProfessor.dataset.codigo = professor.codigoprof;
           listaProfessores.appendChild(opcaoProfessor);
 
           opcaoProfessor.addEventListener('click', () => {
             const selecionado = document.querySelector('.menu#menu-professor .selecionado');
             selecionado.textContent = professor.nomeprof;
             nomeProfessorSelecionado = professor.nomeprof;
+            codigoProfessorSelecionado = professor.codigoprof; // Definir o código do professor selecionado
           });
       });
   } catch (error) {
@@ -111,6 +110,7 @@ async function exibirProfessores() {
 
 // Buscar todas as disciplinas
 let nomeDisciplinaSelecionada = '';
+let codDisciplinaSelecionada = ''; // Adicionando o código da disciplina
 
 async function buscarDisciplinas() {
   const response = await fetch('http://localhost:3000/api/disciplinas');
@@ -132,12 +132,14 @@ async function exibirDisciplinas() {
       const opcaoDisciplina = document.createElement('li');
       opcaoDisciplina.textContent = disciplina.nome;
       opcaoDisciplina.classList.add('tamanhoFonte');
+      opcaoDisciplina.dataset.codigo = disciplina.codigo;
       listaDisciplinas.appendChild(opcaoDisciplina);
 
       opcaoDisciplina.addEventListener('click', () => {
         const selecionado = document.querySelector('.menu#menu-disciplina .selecionado');
         selecionado.textContent = disciplina.nome;
         nomeDisciplinaSelecionada = disciplina.nome;
+        codDisciplinaSelecionada = disciplina.codigo; // Armazenar o código da disciplina
       });
     });
   } catch (error) {
@@ -146,6 +148,9 @@ async function exibirDisciplinas() {
 }
 
 // Buscar todas as turmas
+let nomeTurmaSelecionada = '';
+let codTurmaSelecionada = ''; // Armazenar o código da turma
+
 async function buscarTurmas() {
   const response = await fetch('http://localhost:3000/api/turmas');
   const dados = await response.json();
@@ -171,6 +176,8 @@ async function exibirTurmas() {
           opcaoTurma.addEventListener('click', () => {
               const selecionado = document.querySelector('.menu#menu-turma .selecionado');
               selecionado.textContent = turma.numero;
+              nomeTurmaSelecionada = turma.numero;
+              codTurmaSelecionada = turma.codigo; // Armazenar o código da turma selecionada
           });
       });
   } catch (error) {
@@ -284,16 +291,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (divAluno) {
           divAluno.classList.toggle('falta');
           const codigoAluno = divAluno.dataset.codAluno;
+          const nomeAluno = divAluno.querySelector('.nome-aluno').innerText;
+
           if (divAluno.classList.contains('falta')) {
             if (!faltas[codigoAluno]) {
-                faltas[codigoAluno] = 1;
+                faltas[codigoAluno] = { quantidade: 0, nome: nomeAluno };
             } else {
-                faltas[codigoAluno]++;
+              faltas[codigoAluno].quantidade++;
             }
         } else {
             if (faltas[codigoAluno]) {
-                faltas[codigoAluno]--;
-                if (faltas[codigoAluno] === 0) {
+                faltas[codigoAluno].quantidade--;
+                if (faltas[codigoAluno].quantidade === 0) {
                     delete faltas[codigoAluno];
                 }
             }
@@ -301,43 +310,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-        enviarPresencaBtn.addEventListener('click', async () => {
-          const alunosFaltas = document.querySelectorAll('.falta.caixa-aluno');
-          const faltasEnviar = [];
-        
-          alunosFaltas.forEach(aluno => {
-            const codAluno = aluno.dataset.codAluno;
-            faltasEnviar.push({ codAluno: parseInt(codAluno) });
-          
-            for (let codAluno in faltas) {
-              faltasEnviar.push({
-                  codAluno: codAluno,
-                  qtdeFaltas: faltas[codAluno],
-                  nomeProfessor: nomeProfessorSelecionado, // Adiciona o nome do professor
-                  nomeDisciplina: nomeDisciplinaSelecionada // Adiciona o nome da disciplina
-              });
-          }
-          });
-        
-          try {
-            const response = await fetch('http://localhost:3000/api/faltas', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ faltasEnviar })
-            });
-        
-            if (response.ok) {
-              console.log('Faltas confirmadas com sucesso!');
-            } else {
-              console.error('Erro ao confirmar faltas:', response.statusText);
-            }
-          } catch (error) {
-            console.error('Erro ao confirmar faltas:', error);
-          }
+    enviarPresencaBtn.addEventListener('click', async () => {
+      const faltasEnviar = [];
+      for (let codAluno in faltas) {
+        faltasEnviar.push({
+          codAluno: codAluno,
+          qtdeFaltas: faltas[codAluno].quantidade,
+          nomeAluno: faltas[codAluno].nome,
+          nomeProfessor: nomeProfessorSelecionado,
+          codigoProfessor: codigoProfessorSelecionado, // Enviar o código do professor
+          nomeDisciplina: nomeDisciplinaSelecionada,
+          codigoDisciplina: codDisciplinaSelecionada, // Enviar o código da disciplina
+          nomeTurma: nomeTurmaSelecionada,
+          codigoTurma: codTurmaSelecionada // Enviar o código da turma
         });
-    }
+      }
+
+      console.log('Enviando faltas:', faltasEnviar);
+
+      try {
+        const response = await fetch('http://localhost:3000/api/faltas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ faltasEnviar })
+        });
+
+        if (response.ok) {
+          console.log('Faltas confirmadas com sucesso!');
+        } else {
+          console.error('Erro ao confirmar faltas:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao confirmar faltas:', error);
+      }
+    });
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

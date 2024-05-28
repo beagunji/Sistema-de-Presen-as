@@ -12,6 +12,7 @@ router.get('/alunos/turma/:cod_turma', FaltaController.buscarAlunosPorTurma);
 
 router.post('/faltas', FaltaController.confirmarFalta);
 router.get('/faltas', FaltaController.buscarFaltas);
-router.delete('/faltas', FaltaController.deletarFalta);
+router.get('/faltas/turma/:cod_turma', FaltaController.buscarFaltasPorTurma);
+router.delete('/faltas/:codFalta', FaltaController.deletarFalta);
 
 module.exports = router;

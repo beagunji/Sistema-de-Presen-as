@@ -13,12 +13,7 @@
         <button class="botaoVoltar tamanhoFonte" id="botãoConfirmar" onclick="jumpButton()">Voltar</button>
         <h1 class="tamanhoFonte">Relatório de Faltas</h1>
         <select id="turma" class="tamanhoFonte">
-            <option value="9" class="opcoes">Selecione turma</option>
-            <option value="1" class="opcoes">1º ano</option>
-            <option value="2" class="opcoes">2º ano</option>
-            <option value="3" class="opcoes">3º ano</option>
-            <option value="4" class="opcoes">4º ano</option>
-            <option value="5" class="opcoes">5º ano</option>
+            <!-- As opções serão carregadas aqui -->
         </select>
 
         <input type="text" placeholder="DD/MM/YYYY" onfocus="this.type='date'" onblur="this.type='text'" class="calendario">        
@@ -35,14 +30,17 @@
             <thead>
                 <tr>
                     <th scope="col" class="tamanhoFonte">Data</th>
-                    <th scope="col" class="tamanhoFonte">Cod do Aluno</th>
+                    <th scope="col" class="tamanhoFonte">Aluno</th>
+                    <th scope="col" class="tamanhoFonte">Professor</th>
+                    <th scope="col" class="tamanhoFonte">Disciplina</th>
+                    <th scope="col" class="tamanhoFonte">Turma</th>
                     <th scope="col" class="tamanhoFonte">Qtde de Faltas</th>
                     <th scope="col" class="tamanhoFonte">% de Faltas</th>
                     <th scope="col" class="tamanhoFonte">Deletar</th>
                 </tr>
             </thead>
             <tbody>
-                
+                <!-- As linhas de faltas serão adicionadas aqui -->
             </tbody>
         </table>
     </main>

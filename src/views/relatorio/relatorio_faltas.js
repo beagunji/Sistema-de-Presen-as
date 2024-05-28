@@ -53,7 +53,12 @@ document.querySelector('#imprimir_button').addEventListener('click', () => {
 
 
 // Buscar dados
-document.querySelector('#turma').dispatchEvent(new Event('change'));
+document.querySelector('#turma').addEventListener('change', async function() {
+  const codTurma = this.value;
+  if (codTurma) {
+    await exibirFaltasPorTurma(codTurma);
+  }
+});
 
 // Efeito
 function jumpButton() {
@@ -81,6 +86,60 @@ function jumpButtonL() {
 }
 // Fim do efeito
 
+async function buscarTurmas() {
+  try {
+    const response = await fetch('http://localhost:3000/api/turmas');
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.error('Erro ao buscar turmas:', error);
+  }
+}
+
+async function exibirTurmas() {
+  const turmas = await buscarTurmas();
+  const selectTurmas = document.querySelector('#turma');
+
+  selectTurmas.innerHTML = ''; // Limpar as opções existentes
+
+  turmas.forEach(turma => {
+    const option = document.createElement('option');
+    option.value = turma.codigo;
+    option.textContent = turma.numero;
+    selectTurmas.appendChild(option);
+  });
+}
+
+async function exibirFaltasPorTurma(cod_turma) {
+  try {
+    const response = await fetch(`http://localhost:3000/api/faltas/turma/${cod_turma}`);
+    const data = await response.json();
+    const faltas = data.result;
+
+    const tbody = document.querySelector('#relatorio tbody');
+    tbody.innerHTML = '';
+
+    faltas.forEach(falta => {
+      const dataFormatada = new Date(falta.data).toLocaleDateString();
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${dataFormatada}</td>
+        <td>${falta.nomeAluno}</td>
+        <td>${falta.nomeProf}</td>
+        <td>${falta.nomeDisc}</td>
+        <td>${falta.nomeTurma}</td>
+        <td>${falta.qtdeFaltas}</td>
+        <td>${falta.porcFaltas}</td>
+        <td><button onclick="deletarFalta(${falta.codFalta}')">Deletar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (error) {
+    console.error('Erro ao buscar faltas:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', exibirTurmas);
 
 async function buscarFaltas() {
   try {
@@ -103,35 +162,37 @@ async function exibirFaltas() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${dataFormatada}</td>
-      <td>${falta.codigoAluno}</td>
+      <td>${falta.nomeAluno}</td>
+      <td>${falta.nomeProf}</td>
+      <td>${falta.nomeDisc}</td>
+      <td>${falta.nomeTurma}</td>
       <td>${falta.qtdeFaltas}</td>
       <td>${falta.porcFaltas}</td>
-      <td><button onclick="deletarFalta(${falta.codigoAluno})">Deletar</button></td>
+      <td><button onclick="deletarFalta(${falta.codFalta})">Deletar</button></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-async function deletarFalta(codigoAluno, data) {
+async function deletarFalta(codFalta) {
   try {
-    const response = await fetch('http://localhost:3000/api/faltas', {
+    const response = await fetch(`http://localhost:3000/api/faltas/${codFalta}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ codAluno: codigoAluno, data: data })
     });
 
     if (response.ok) {
       alert('Falta deletada com sucesso!');
-      exibirFaltas(); // Atualiza a tabela de faltas após a exclusão
+      exibirFaltas(); // Recarrega a lista de faltas
     } else {
-      alert('Erro ao deletar a falta.');
+      const errorData = await response.json();
+      alert('Erro ao deletar a falta: ' + errorData.error);
     }
   } catch (error) {
-    console.error('Erro ao deletar falta:', error);
+    console.error('Erro ao deletar a falta:', error);
+    alert('Erro ao deletar a falta.');
   }
 }
+
 
 function gerarNotificacao() {
   const tabelaLinhas = document.querySelectorAll('#relatorio tbody tr');
@@ -139,7 +200,7 @@ function gerarNotificacao() {
   const emailData = [];
 
   tabelaLinhas.forEach((row) => {
-    const porcentagemCelula = row.cells[5];
+    const porcentagemCelula = row.cells[6];
     const porcentagemValor = parseFloat(porcentagemCelula.textContent.replace('%', ''));
 
     if (porcentagemValor >= alertaLimite) {

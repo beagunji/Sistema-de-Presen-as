@@ -66,31 +66,48 @@ module.exports = {
       });
     },
 
+    buscarFaltasPorTurma: (cod_turma) => {
+      return new Promise((aceito, rejeitado) => {
+        db.query('SELECT * FROM Novas_Faltas WHERE Cod_Turma = ?', [cod_turma], (error, results) => {
+          if (error) { rejeitado(error); return; }
+          aceito(results);
+        });
+      });
+    },
+
     registrarFaltas: (faltasEnviar) => {
-        return new Promise((aceito, rejeitado) => {
-          const inserts = faltasEnviar.map(falta => {
-            return new Promise((resolve, reject) => {
-              db.query('INSERT INTO Faltas (Cod_Aluno, Qtde_Faltas, Datas, Nome_Prof, Nome_Disc) VALUES (?, ?, CURDATE(), ?, ?)',  [falta.codAluno, falta.qtdeFaltas, falta.nomeProfessor, falta.nomeDisciplina], (error, results) => {
-                if(error) { reject(error); return; }
-                resolve(results);
-              });
+      return new Promise((aceito, rejeitado) => {
+        const inserts = faltasEnviar.map(falta => {
+          if (!falta.codAluno || !falta.nomeAluno || falta.qtdeFaltas || !falta.nomeProfessor || !falta.codigoProfessor || !falta.nomeDisciplina || !falta.codigoDisciplina || !falta.nomeTurma || !falta.codigoTurma) {
+            return Promise.reject(new Error('Dados incompletos ou inválidos'));
+          }
+    
+          return new Promise((resolve, reject) => {
+            db.query('INSERT INTO Faltas (Cod_Aluno, Nome_Aluno, Qtde_Faltas, Datas, Nome_Prof, Cod_Prof, Nome_Disc, Cod_Disc, Num_Turma, Cod_Turma) VALUES (?, ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?)',  
+            [falta.codAluno, falta.nomeAluno, falta.qtdeFaltas, falta.nomeProfessor, falta.codigoProfessor, falta.nomeDisciplina, falta.codigoDisciplina, falta.nomeTurma, falta.codigoTurma], (error, results) => {
+              if(error) { reject(error); return; }
+              resolve(results);
             });
           });
-    
-          Promise.all(inserts)
-            .then(() => aceito())
-            .catch(error => rejeitado(error));
         });
+    
+        Promise.all(inserts)
+          .then(() => aceito())
+          .catch(error => rejeitado(error));
+      });
     },
   
     // Deletar faltas
-  deletarFalta: (codAluno, data) => {
-    return new Promise((aceito, rejeitado) => {
-      db.query('DELETE FROM Novas_Faltas WHERE Cod_Aluno = ? AND Datas = ?', [codAluno, data], (error, results) => {
-        if (error) { rejeitado(error); return; }
-        aceito(results);
+    deletarFalta: (codFalta) => {
+      return new Promise((resolve, reject) => {
+        db.query('DELETE FROM Novas_Faltas WHERE Cod_Nova_Falta = ?', [codFalta], (error, results) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve(results);
+        });
       });
-    });
-  }  
+    }
   
 };
