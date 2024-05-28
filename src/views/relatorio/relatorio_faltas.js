@@ -139,8 +139,6 @@ async function exibirFaltasPorTurma(cod_turma) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', exibirTurmas);
-
 async function buscarFaltas() {
   try {
     const response = await fetch('http://localhost:3000/api/faltas');
@@ -197,7 +195,6 @@ async function deletarFalta(codFalta) {
 function gerarNotificacao() {
   const tabelaLinhas = document.querySelectorAll('#relatorio tbody tr');
   const alertaLimite = 25; // 25% faltas
-  const emailData = [];
 
   tabelaLinhas.forEach((row) => {
     const porcentagemCelula = row.cells[6];
@@ -207,38 +204,25 @@ function gerarNotificacao() {
       const alunoNome = row.cells[1].textContent;
       const professorNome = row.cells[2].textContent;
       const disciplina = row.cells[3].textContent;
-      const ausenciaTotal = row.cells[4].textContent;
+      const turma = row.cells[4].textContent;
+      const porcFaltas = row.cells[6].textContent;
 
-      const arquivoConteudo = `Alerta de Faltas Excessivas:
-        Aluno: ${alunoNome}
-        Professor: ${professorNome}
-        Disciplina: ${disciplina}
-        Qtde de Faltas: ${ausenciaTotal}
-        % de Faltas: ${Porc_Faltas}%`;
+      const arquivoConteudo = `Alerta de Faltas Excessivas:\n\nAluno: ${alunoNome}\nProfessor: ${professorNome}\nDisciplina: ${disciplina}\nTurma: ${turma}\n% de Faltas: ${porcFaltas}`;
 
-      // Gera o arquivo.txt e manda por email
       const blob = new Blob([arquivoConteudo], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-
-      emailData.push({
-        alunoNome,
-        professorNome,
-        disciplina,
-        ausenciaTotal,
-        Porc_Faltas,
-      });
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${alunoNome}_Alerta_Faltas.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   });
-
-  // Envia e-mails
-  //emailjs.send(codigoAluno, emailData);
 }
 
-document.addEventListener('DOMContentLoaded', gerarNotificacao);
-
-
-///////////////////
+// Exibir datas
 
 async function exibirDatas() {
   const datas = await buscarDatas();
@@ -260,7 +244,12 @@ async function exibirDatas() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', exibirFaltas);
+document.addEventListener('DOMContentLoaded', () => {
+  exibirTurmas();
+  exibirFaltas();
+  
+  document.querySelector('#turma').addEventListener('change', gerarNotificacao);
+});
 
 
 
