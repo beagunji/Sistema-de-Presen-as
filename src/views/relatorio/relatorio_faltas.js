@@ -42,7 +42,7 @@ function mudarTamanhoFonte(type) {
 
 // BOTÃO VOLTAR
 function voltarPagina() {
-  window.location.href = "";
+  window.location.href = "index.html";
     }
 document.getElementById('botãoConfirmar').addEventListener('click', voltarPagina);
 

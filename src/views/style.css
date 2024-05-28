@@ -14,6 +14,11 @@ body {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .botoesCima{
   margin-top: 2em;
   display: flex;
