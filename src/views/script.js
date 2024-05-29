@@ -13,29 +13,29 @@ function mudarTamanhoFonte(type) {
 let currentFont = 'Poppins';
 let openDyslexicStyle = null;
 
-function mudarFonte() {
-  if (currentFont === 'Poppins') {
-    openDyslexicStyle = document.createElement('style');
-    openDyslexicStyle.appendChild(document.createTextNode('OpenDyslexic'));
-    document.head.appendChild(openDyslexicStyle);
+    function mudarFonte() {
+      if (currentFont === 'Poppins') {
+        openDyslexicStyle = document.createElement('style');
+        openDyslexicStyle.appendChild(document.createTextNode('OpenDyslexic'));
+        document.head.appendChild(openDyslexicStyle);
 
-    const allElements = document.getElementsByTagName('');
-    for (let i = 0; i < allElements.length; i++) {
-      allElements[i].style.fontFamily = 'OpenDyslexic';
+        const allElements = document.getElementsByTagName('*');
+        for (let i = 0; i < allElements.length; i++) {
+          allElements[i].style.fontFamily = 'OpenDyslexic';
+        }
+
+        currentFont = 'OpenDyslexic';
+      } else {
+        document.head.removeChild(openDyslexicStyle);
+
+        const allElements = document.getElementsByTagName('*');
+        for (let i = 0; i < allElements.length; i++) {
+          allElements[i].style.fontFamily = 'Poppins';
+        }
+
+        currentFont = 'Poppins';
+      }
     }
-
-    currentFont = 'OpenDyslexic';
-  } else {
-    document.head.removeChild(openDyslexicStyle);
-
-    const allElements = document.getElementsByTagName('');
-    for (let i = 0; i < allElements.length; i++) {
-      allElements[i].style.fontFamily = 'Poppins';
-    }
-
-    currentFont = 'Poppins';
-  }
-}
   
 // Menu dropdown
 const menus = document.querySelectorAll('.menu');
